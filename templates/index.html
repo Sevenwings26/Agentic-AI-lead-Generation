@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Lead Generator</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background */
+        }
+        .message-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        .message-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
+        <!-- Form Title -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Find Your Dream Property</h2>
+        <p class="text-center text-gray-600 mb-8">Tell us what you're looking for, and we'll help you find it!</p>
+
+        <!-- Message Box for Success/Error -->
+        <div id="messageBox" class="message-box hidden"></div>
+
+        <!-- Lead Generation Form -->
+        <form id="leadForm" class="space-y-6">
+            <!-- Name Input -->
+            <div>
+                <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Email Input -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="email" name="email" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Phone Number Input -->
+            <div>
+                <label for="phone_no" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (Optional)</label>
+                <input type="tel" id="phone_no" name="phone_no"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Looking To Section (Radio Buttons) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">I am looking to...</label>
+                <div class="mt-2 space-y-2">
+                    <div class="flex items-center">
+                        <input id="intent_buy" name="intent" type="radio" value="buy" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300" required>
+                        <label for="intent_buy" class="ml-3 block text-sm text-gray-700">Buy a property</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input id="intent_sell" name="intent" type="radio" value="sell" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+                        <label for="intent_sell" class="ml-3 block text-sm text-gray-700">Sell a property</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input id="intent_rent" name="intent" type="radio" value="rent" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+                        <label for="intent_rent" class="ml-3 block text-sm text-gray-700">Rent a property</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Type Dropdown -->
+            <div>
+                <label for="property_type" class="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
+                <select id="property_type" name="property_type" required
+                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                    <option value="">Select a type</option>
+                    <option value="house">House</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="land">Land</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Preferred Location Input -->
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Preferred Location (e.g., City, Neighborhood)</label>
+                <input type="text" id="location" name="location" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Budget/Price Range Input -->
+            <div>
+                <label for="budget" class="block text-sm font-medium text-gray-700 mb-1">Budget/Price (e.g., 250000.00 for $250,000)</label>
+                <input type="number" step="0.01" id="budget" name="budget" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Additional Notes Textarea -->
+            <div>
+                <label for="additional_notes" class="block text-sm font-medium text-gray-700 mb-1">Additional Notes / Specific Requirements</label>
+                <textarea id="additional_notes" name="additional_notes" rows="4"
+                          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    Submit Inquiry
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // To prevent default submission on reload
+        
+            const messageBox = document.getElementById('messageBox');
+            messageBox.classList("hidden")
+
+            const formData = new FormData(e.target);
+            const data = {};
+            for (let [key, value] of formData.entries()){
+                if (key === 'budget'){
+                    data[key] = parseFloat(value);
+                } else {
+                    data[key] = value
+                }
+            }
+
+            // Ensure phone_no is set to null if empty, as per Optional[str]
+            if (data.phone_no === '') {
+                data.phone_no = null;
+            }
+
+            // Submit form to Backend 
+            try{
+                const response = await fetch("http://127.0.0.1:8000/submit-lead", {
+                    method: POST,
+                    headers: {
+                        'Content-Type':'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json()
+
+                if (response.ok){
+                    messageBox.textContent = result.message || "Form Submitted Successfully";
+                    messageBox.className = 'message-box success';
+                    e.target.reset();
+                } else {
+                    let errorMessage = "An error occurred. Please, try again!";
+                    if (result.detail && Array.isArray(result.detail)) {
+                        errorMessage = result.detail.map(err => `${err.loc.join('.')} - ${err.msg}`).join(', ');
+                    } else if (errorMessage) {
+                        errorMessage = result.message;
+                    }
+                    messageBox.textContent = `Error: ${errorMessage}`;
+                    messageBox.className = 'message-box error';
+                }
+            } catch (error) {
+                console.error('Network error:', error);
+                messageBox.textContent = 'Network error. Could not connect to the server.';
+                messageBox.className = 'message-box error';
+            } finally {
+                messageBox.classList.remove('hidden');
+            }
+        })
+
+    </script>
+
+</body>
+</html>
