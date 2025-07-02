@@ -8,7 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from crud import fetch_leads
 import traceback
 
-
 models.Base.metadata.create_all(bind=engine)
 
 # initialize app 
@@ -31,7 +30,7 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {'request':request})
     # return "Hello Real Estate..."
 
-
+"""Inbound leads via forms for visiting users.""" 
 @app.post("/submit-lead", response_model=LeadResponse)
 async def submit_lead(request: SubmitContext, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     try:
