@@ -129,19 +129,20 @@
     </div>
     
     <script>
-        document.getElementById('leadForm').addEventListener('submit', async function(e) {
-            e.preventDefault(); // To prevent default submission on reload
-        
-            const messageBox = document.getElementById('messageBox');
-            messageBox.classList("hidden")
+        document.getElementById('leadForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-            const formData = new FormData(e.target);
+            const messageBox = document.getElementById('messageBox');
+            messageBox.classList.add('hidden'); // Hide previous messages
+
+            const formData = new FormData(event.target);
             const data = {};
-            for (let [key, value] of formData.entries()){
-                if (key === 'budget'){
+            for (let [key, value] of formData.entries()) {
+                // Special handling for the budget field to convert to float
+                if (key === 'budget') {
                     data[key] = parseFloat(value);
                 } else {
-                    data[key] = value
+                    data[key] = value;
                 }
             }
 
@@ -150,26 +151,31 @@
                 data.phone_no = null;
             }
 
-            // Submit form to Backend 
-            try{
-                const response = await fetch("http://127.0.0.1:8000/submit-lead", {
-                    method: POST,
-                    headers: {
-                        'Content-Type':'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json()
+            // print data to console
+            console.log(data)
 
-                if (response.ok){
-                    messageBox.textContent = result.message || "Form Submitted Successfully";
+            try {
+                // FastAPI server
+                const response = await fetch('http://127.0.0.1:8000/submit-lead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageBox.textContent = result.message || 'Form submitted successfully!';
                     messageBox.className = 'message-box success';
-                    e.target.reset();
+                    event.target.reset(); // Clear the form
                 } else {
-                    let errorMessage = "An error occurred. Please, try again!";
+                    let errorMessage = 'An error occurred. Please try again.';
                     if (result.detail && Array.isArray(result.detail)) {
+                        // FastAPI validation errors
                         errorMessage = result.detail.map(err => `${err.loc.join('.')} - ${err.msg}`).join(', ');
-                    } else if (errorMessage) {
+                    } else if (result.message) {
                         errorMessage = result.message;
                     }
                     messageBox.textContent = `Error: ${errorMessage}`;
@@ -182,9 +188,7 @@
             } finally {
                 messageBox.classList.remove('hidden');
             }
-        })
-
+        });
     </script>
-
 </body>
 </html>

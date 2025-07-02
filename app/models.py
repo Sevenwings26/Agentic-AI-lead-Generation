@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Column, String, Text
+from sqlalchemy import Integer, Column, String, Text, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -13,5 +13,5 @@ class LeadContextTable(Base):
     intent = Column(String, nullable=False)
     property_type = Column(String, nullable=False)
     location = Column(String, nullable=False)
-    budget = Column(String, nullable=False) # Storing as String for flexibility
+    budget = Column(Float, nullable=False)
     notes = Column(Text, nullable=True) # Optional

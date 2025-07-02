@@ -10,3 +10,10 @@ class SubmitContext(BaseModel):
     location: str
     budget: float
     additional_notes: Optional[str] = None
+
+
+# New schema for the API response
+class LeadResponse(BaseModel):
+    name: str
+    message: str
+    lead_id: int
