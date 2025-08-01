@@ -6,7 +6,6 @@ from datetime import datetime
 class SubmitContext(BaseModel):
     full_name: str
     email: str
-    # phone_no: Optional[str] = None  
     phone_no: str  # it's important
     intent: str
     property_type: str

@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Request, Depends, BackgroundTasks, HTTPException
 from fastapi.templating import Jinja2Templates
-from schemas import SubmitContext, LeadResponse
-from database import engine, get_db
-import models
+from app.schemas import SubmitContext, LeadResponse
+from app.database import engine, get_db
+from app import models
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-from crud import fetch_leads
+from app.crud import fetch_leads
 import traceback
 
 models.Base.metadata.create_all(bind=engine)

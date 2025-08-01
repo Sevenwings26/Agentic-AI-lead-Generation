@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models
+from app import models
 from typing import Optional  # For optional fields
 
 # create             
@@ -13,4 +13,4 @@ def fetch_leads(db: Session, full_name:str, email:str, phone_no:str, intent:str,
     except Exception as e:
         db.rollback()
         raise ValueError(f"Lead creation failed: {str(e)}")
-    
+
